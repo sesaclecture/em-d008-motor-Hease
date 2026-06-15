@@ -10,8 +10,8 @@
 #
 # 선형 비례 관계로 계산하세요.
 def servo_angle_to_pulse_width(angle):
-    raise NotImplementedError
-
+    # raise NotImplementedError
+    return int((angle % 360 / 180 * 2 + 0.5) * 1000)
 
 # 문제 2.
 #
@@ -19,7 +19,22 @@ def servo_angle_to_pulse_width(angle):
 #
 # C4, D4, E4, F4, G4, A4, B4, C5 음계를 지원해야 합니다.
 def note_to_frequency(note):
-    raise NotImplementedError
+    # raise NotImplementedError
+    notes = {
+    "C4": 262,  # C4
+    "D4": 294,  # D4
+    "E4": 330,  # E4
+    "F4": 349,  # F4
+    "G4": 392, # G4
+    "A4": 440,  # A4
+    "B4": 494,  # B4
+    "C5": 523  # C5
+    }
+
+    if note in notes:
+        return notes[note]
+    else:
+        return 0
 
 
 # 문제 3.
@@ -29,8 +44,24 @@ def note_to_frequency(note):
 # notes 인자는 음계 이름이 들어있는 리스트입니다.
 # 각 음계를 주파수 값으로 변환한 리스트를 반환하세요.
 def melody_to_frequencies(notes):
-    raise NotImplementedError
+    # raise NotImplementedError
+    base = {
+    "C4": 262,  # C4
+    "D4": 294,  # D4
+    "E4": 330,  # E4
+    "F4": 349,  # F4
+    "G4": 392, # G4
+    "A4": 440,  # A4
+    "B4": 494,  # B4
+    "C5": 523  # C5
+    }
 
+    result = []
+
+    for i in notes:
+        result.append(base[i])
+
+    return result
 
 # 문제 4.
 #
@@ -48,8 +79,23 @@ def melody_to_frequencies(notes):
 #
 # 반환값은 (linear_x, angular_z) 튜플입니다.
 def direction_to_twist(direction):
-    raise NotImplementedError
+    # raise NotImplementedError
+    
+    directions = {
+    "forward": (1.0, 0.0),
+    "backward": (-1.0, 0.0),
+    "left": (0.0, 1.0),
+    "right": (0.0, -1.0),
+    "stop": (0.0, 0.0)
+    }
 
+
+    if direction in directions:
+        result = directions[direction]
+    else:
+        result = (0.0, 0.0)
+    
+    return result
 
 # 문제 5.
 #
@@ -62,4 +108,11 @@ def direction_to_twist(direction):
 #
 # 반환값은 (left_speed, right_speed) 튜플입니다.
 def twist_to_wheel_speed(linear_x, angular_z):
-    raise NotImplementedError
+    left = (linear_x - angular_z) * 100
+    right = (linear_x + angular_z) * 100
+
+    left = max(-100, min(100, int(left)))
+    right = max(-100, min(100, int(right)))
+
+    return (left, right)
+
